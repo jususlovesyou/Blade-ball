@@ -1,0 +1,141 @@
+-- Services
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+
+-- Add blur effect
+local blur = Instance.new("BlurEffect")
+blur.Size = 12
+blur.Parent = Lighting
+
+-- Player GUI
+local player = Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "PasswordPrompt"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.ResetOnSpawn = false
+
+-- Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 170)
+frame.Position = UDim2.new(0.5, -125, 1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0, 12)
+frameCorner.Parent = frame
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -30, 0.2, 0)
+title.Position = UDim2.new(0, 10, 0, 5)
+title.BackgroundTransparency = 1
+title.Text = "Enter Password"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = frame
+
+-- Close Button
+local close = Instance.new("TextButton")
+close.Size = UDim2.new(0, 20, 0, 20)
+close.Position = UDim2.new(1, -25, 0, 5)
+close.BackgroundTransparency = 1
+close.Text = "X"
+close.Font = Enum.Font.GothamBold
+close.TextColor3 = Color3.fromRGB(200, 80, 80)
+close.TextSize = 16
+close.Parent = frame
+
+-- TextBox
+local textbox = Instance.new("TextBox")
+textbox.Size = UDim2.new(0.8, 0, 0.2, 0)
+textbox.Position = UDim2.new(0.1, 0, 0.3, 0)
+textbox.Text = ""
+textbox.TextColor3 = Color3.new(1, 1, 1)
+textbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+textbox.Font = Enum.Font.Gotham
+textbox.TextSize = 16
+textbox.ClearTextOnFocus = false
+textbox.Parent = frame
+
+local textboxCorner = Instance.new("UICorner")
+textboxCorner.CornerRadius = UDim.new(0, 8)
+textboxCorner.Parent = textbox
+
+-- Confirm Button
+local confirmButton = Instance.new("TextButton")
+confirmButton.Size = UDim2.new(0.5, -5, 0.2, 0)
+confirmButton.Position = UDim2.new(0.05, 0, 0.65, 0)
+confirmButton.Text = "Confirm"
+confirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+confirmButton.BackgroundColor3 = Color3.fromRGB(0, 170, 127)
+confirmButton.Font = Enum.Font.GothamBold
+confirmButton.TextSize = 16
+confirmButton.Parent = frame
+
+local confirmCorner = Instance.new("UICorner")
+confirmCorner.CornerRadius = UDim.new(0, 8)
+confirmCorner.Parent = confirmButton
+
+-- Get Key Button
+local keyButton = Instance.new("TextButton")
+keyButton.Size = UDim2.new(0.4, 0, 0.2, 0)
+keyButton.Position = UDim2.new(0.55, 5, 0.65, 0)
+keyButton.Text = "Get Key"
+keyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyButton.BackgroundColor3 = Color3.fromRGB(0, 110, 255)
+keyButton.Font = Enum.Font.GothamBold
+keyButton.TextSize = 16
+keyButton.Parent = frame
+
+local keyCorner = Instance.new("UICorner")
+keyCorner.CornerRadius = UDim.new(0, 8)
+keyCorner.Parent = keyButton
+
+-- Animate entrance
+TweenService:Create(frame, TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+	Position = UDim2.new(0.5, -125, 0.35, 0)
+}):Play()
+
+-- Confirm Logic
+confirmButton.MouseButton1Click:Connect(function()
+	if textbox.Text:lower() == "pear" then
+		TweenService:Create(frame, TweenInfo.new(0.4), {Position = UDim2.new(0.5, -125, 1.2, 0)}):Play()
+		wait(0.45)
+		gui:Destroy()
+		blur:Destroy()
+		loadstring(game:HttpGet("https://rawscripts.net/raw/XMAS-Blade-Ball-OPEN-SOURCE-Simple-Proximity-Auto-Parry-25405"))()
+	else
+		textbox.Text = ""
+		textbox.BackgroundColor3 = Color3.fromRGB(80, 30, 30)
+		wait(0.2)
+		textbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+	end
+end)
+
+-- Get Key Logic
+keyButton.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard("https://discord.gg/8TkFzFnp")
+		keyButton.Text = "Copied!"
+		wait(1.5)
+		keyButton.Text = "Get Key"
+	else
+		keyButton.Text = "Clipboard Failed"
+		wait(2)
+		keyButton.Text = "Get Key"
+	end
+end)
+
+-- Close Button Logic
+close.MouseButton1Click:Connect(function()
+	TweenService:Create(frame, TweenInfo.new(0.4), {Position = UDim2.new(0.5, -125, 1.2, 0)}):Play()
+	wait(0.45)
+	gui:Destroy()
+	blur:Destroy()
+end)
